@@ -2,25 +2,39 @@ source("cachematrix.R")
 #
 # Sample run:
 # -----------
-x <- rbind(c(1, -1/4), c(-1/4, 1))
-m <- makeCacheMatrix(x)
-m$get()
-#      [,1]  [,2]
-# [1,] 1.00 -0.25
-# [2,] -0.25 1.00
+#
+mat <- makeCacheMatrix(matrix(1:4,2))
+mat$get()
+#      [,1] [,2]
+# [1,]    1    3
+# [2,]    2    4
+mat$getInverse()
+# NULL
+#
 # No cache in the first run
 # -------------------------
-cacheSolve(m)
-#           [,1]      [,2]
-# [1,] 1.0666667 0.2666667
-# [2,] 0.2666667 1.0666667
+cacheSolve(mat)
+#      [,1] [,2]
+# [1,]   -2  1.5
+# [2,]    1 -0.5
 #
 # Retrieving from the cache in the second run
 # -------------------------------------------
-cacheSolve(m)
+cacheSolve(mat)
 # getting cached data.
-#           [,1]      [,2]
-# [1,] 1.0666667 0.2666667
-# [2,] 0.2666667 1.0666667
+# 
+#      [,1] [,2]
+# [1,]   -2  1.5
+# [2,]    1 -0.5
 #
-
+mat$getInverse()
+#      [,1] [,2]
+# [1,]   -2  1.5
+# [2,]    1 -0.5
+#
+imat = mat$getInverse()
+mat$get() %*% imat
+#      [,1] [,2]
+# [1,]    1    0
+# [2,]    0    1
+#
